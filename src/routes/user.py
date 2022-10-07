@@ -8,13 +8,13 @@ from marshmallow import ValidationError
 
 class UserRoutes(Resource):
     def post(self):
-        name = request.form['name']
-        email = request.form['email']
-        password = request.form['password']
-        city = request.form['city']
-        state = request.form['state']
-        zipcode = request.form['zipcode']
-        balance = request.form['balance']
+        name = request.json['name']
+        email = request.json['email']
+        password = request.json['password']
+        city = request.json['city']
+        state = request.json['state']
+        zipcode = request.json['zipcode']
+        balance = request.json['balance']
 
         if User.query.filter_by(email=email).first() is not None:
             return {'message': 'User already exists'}, HTTP_400_BAD_REQUEST
