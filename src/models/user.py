@@ -72,6 +72,11 @@ class User(db.Model):
         db.session.commit()
         return self
 
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+        return self
+
     def __repr__(self) -> str:
         return super().__repr__()
     # here super().__repr__() is a function which returns the string representation of the object of the class

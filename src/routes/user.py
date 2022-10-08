@@ -2,7 +2,7 @@ from pprint import pprint
 from flask import request
 from flask_restful import Resource
 
-from src.constants.http_status_codes import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
+from src.constants.http_status_codes import HTTP_200_OK, HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
 from src.models.user import User
 from marshmallow import ValidationError
 
@@ -51,6 +51,15 @@ class GetUserRoutes(Resource):
         if user is None:
             return {'message': 'User not found'}, HTTP_404_NOT_FOUND
         return user_schema.dump(user), HTTP_200_OK
+
+
+class DeleteUserRoutes(Resource):
+    def delete(self, user_id):
+        user = User.query.filter_by(_id=user_id).first()
+        if user is None:
+            return {'message': 'User not found'}, HTTP_404_NOT_FOUND
+        user.delete()
+        return {'message': 'User deleted successfully'}, HTTP_204_NO_CONTENT
 
 
 class UserList(Resource):
