@@ -66,7 +66,9 @@ class User(db.Model):
         # here we have committed the changes made to the session object to the database
         return self
 
-    def update(self):
+    def update(self, updated_data):
+        for key, value in updated_data.items():
+            setattr(self, key, value)
         db.session.commit()
         return self
 
@@ -76,8 +78,7 @@ class User(db.Model):
     # __repr__() is a special function which is used to return the string representation of the object of the class
     # special functions are functions which are used by the python interpreter to perform some special tasks like __init__() is a special function which is used to initialize the attributes of the class when an object of the class is created using the class name and __repr__() is a special function which is used to return the string representation of the object of the class when the print() function is used to print the object of the class or when the str() function is used to convert the object of the class to a string
 
-    def get_schema():
+    def get_schema(params=None):
+        if params:
+            return UserSchema(only=params)
         return UserSchema()
-
-    def get_schema(params):
-        return UserSchema(only=params)

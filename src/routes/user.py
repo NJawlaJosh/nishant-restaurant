@@ -30,16 +30,17 @@ class UserRoutes(Resource):
 class UserUpdateRoutes(Resource):
     def put(self, user_id):
         request_data = request.get_json()
-        pprint(request_data)
         user_schema = User.get_schema()
-
+        user = User.query.filter_by(_id=user_id).first()
+        if user is None:
+            return {'message': 'User not found'}, HTTP_404_NOT_FOUND
         try:
-            user = User.query.filter_by(_id=user_id).first()
-            user.update(**user_schema.load(request_data))
+            user.update(user_schema.load(
+                request_data, instance=user, partial=True))
         except ValidationError as err:
             return err.messages, HTTP_400_BAD_REQUEST
 
-        return user_schema.dump(user.update()), HTTP_200_OK
+        return user_schema.dump(user), HTTP_200_OK
 
 
 class GetUserRoutes(Resource):
