@@ -66,6 +66,10 @@ class User(db.Model):
         # here we have committed the changes made to the session object to the database
         return self
 
+    def update(self):
+        db.session.commit()
+        return self
+
     def __repr__(self) -> str:
         return super().__repr__()
     # here super().__repr__() is a function which returns the string representation of the object of the class
@@ -74,3 +78,6 @@ class User(db.Model):
 
     def get_schema():
         return UserSchema()
+
+    def get_schema(params):
+        return UserSchema(only=params)
