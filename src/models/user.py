@@ -1,3 +1,4 @@
+from src.models.address import Address
 from . import db
 
 from src.schema.user import UserSchema
@@ -37,6 +38,7 @@ class User(db.Model):
     state = db.Column(db.String(100), nullable=False)
     zipcode = db.Column(db.Integer(), nullable=False)
     balance = db.Column(db.Float(), default=0, nullable=False)
+    address = db.relationship('Address', backref='user', lazy=True)
     # here we have created a column named state which is of type Enum
     # values_callable is a special attribute which is used to assign the values of the Enum class to the column
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.now())
@@ -58,10 +60,12 @@ class User(db.Model):
         self.balance = balance
 
     def create(self):
+        address = Address()
         db.session.add(self)
         # session is a temporary staging area where we can store objects before committing them to the database
         # here we have added the object of the User class to the session object of the database object db
         # session  has a method named add which is used to add the object to the session
+        # address = Address()
         db.session.commit()
         # here we have committed the changes made to the session object to the database
         return self
