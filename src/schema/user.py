@@ -8,11 +8,18 @@ from src.schema import ma
 
 
 class UserSchema(ma.SQLAlchemySchema):
+    class Meta:
+        # here we have created a Meta class which is used to specify the table name and the primary key of the table
+        # here we have specified the table name as User and the primary key as id
+        model = 'User'
+        # here we have specified the table name as User
+        # here we have specified the primary key as id
+        primary_key = '_id'
     _id = fields.Integer(dump_only=True)
     name = fields.String(
         required=True, validate=validate.Length(min=1, max=100, error="Name must be between 1 and 100 characters long"))
     email = fields.Email(
-        required=True, validate=validate.And(validate.Email(), validate.Length(min=5, max=100, error="Email must be between 5 and 100 characters long")))
+        required=True, validate=validate.Email())
     password = fields.String(
         required=True, validate=validate.Length(min=5, max=300, error="Password must be between 5 and 300 characters long"))
     city = fields.String(

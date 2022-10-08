@@ -8,32 +8,19 @@ from marshmallow import ValidationError
 
 class UserRoutes(Resource):
     def post(self):
-        name = request.json['name']
-        email = request.json['email']
-        password = request.json['password']
-        city = request.json['city']
-        state = request.json['state']
-        zipcode = request.json['zipcode']
-        balance = request.json['balance']
+        data = request.get_json()
 
-        if User.query.filter_by(email=email).first() is not None:
+        if User.query.filter_by(email=data['email']).first() is not None:
             return {'message': 'User already exists'}, HTTP_400_BAD_REQUEST
 
         user_schema = User.get_schema()
         try:
-            user_schema.load({
-                "name": name,
-                "email": email,
-                "password": password,
-                "city": city,
-                "state": state,
-                "zipcode": zipcode,
-                "balance": balance
-            })
+            # user schema returns a dictionary object
+            user = User(**user_schema.load(data))
+            # ** is used to unpack the dictionary object
         except ValidationError as err:
             return err.messages, HTTP_400_BAD_REQUEST
 
-        user = User(name, email, password, city, state, zipcode, balance)
         user.create()
 
         return user_schema.dump(user), HTTP_201_CREATED
