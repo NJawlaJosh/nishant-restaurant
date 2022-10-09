@@ -1,5 +1,5 @@
 from flask_restful import Api
-from .user import UserRoutes, UserList, UserUpdateRoutes, GetUserRoutes, DeleteUserRoutes
+from .user import UserRoutes
 api = Api()
 
 # api.add_resource(GetUserRoutes, '/user/<int:user_id>')
