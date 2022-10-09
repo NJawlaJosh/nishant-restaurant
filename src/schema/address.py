@@ -5,8 +5,8 @@ from src.constants.india_states import indian_states
 class AddressSchema(Schema):
     class Meta:
         table = 'addresses'
-        fields = ('id', 'user_id', 'address', 'city', 'state',
-                  'zipcode', 'created_at', 'updated_at')
+        fields = ('id', 'user_id', 'city', 'state',
+                  'zipcode')
         model = 'Address'
 
     _id = fields.Integer(dump_only=True)

@@ -34,11 +34,9 @@ class User(db.Model):
     # doc default value is None
     email = db.Column(db.String(100), nullable=False, unique=True)
     password = db.Column(db.String(300), nullable=False)
-    city = db.Column(db.String(100), nullable=False)
-    state = db.Column(db.String(100), nullable=False)
-    zipcode = db.Column(db.Integer(), nullable=False)
     balance = db.Column(db.Float(), default=0, nullable=False)
     address = db.relationship('Address', backref='user', lazy=True)
+    # db. relationship takes following arguments as input
     # here we have created a column named state which is of type Enum
     # values_callable is a special attribute which is used to assign the values of the Enum class to the column
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.now())
@@ -47,20 +45,16 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime, nullable=False,
                            default=db.func.now(), onupdate=db.func.now())
 
-    def __init__(self, name, email, password, city, state, zipcode, balance) -> None:
+    def __init__(self, **kwargs) -> None:
         super().__init__()
         # here we have created a constructor for the User class
         # the constructor is used to initialize the attributes of the class when an object of the class is created using the class name and the constructor is called automatically when an object of the class is created
-        self.name = name
-        self.email = email
-        self.password = password
-        self.city = city
-        self.state = state
-        self.zipcode = zipcode
-        self.balance = balance
+        self.name = kwargs.get('name')
+        self.email = kwargs.get('email')
+        self.password = kwargs.get('password')
+        self.balance = kwargs.get('balance')
 
     def create(self):
-        address = Address()
         db.session.add(self)
         # session is a temporary staging area where we can store objects before committing them to the database
         # here we have added the object of the User class to the session object of the database object db

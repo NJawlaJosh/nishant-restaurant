@@ -1,7 +1,9 @@
+from pprint import pprint
 from flask import request
 from flask_restful import Resource
 
 from src.constants.http_status_codes import HTTP_200_OK, HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
+from src.models.address import Address
 from src.models.user import User
 from marshmallow import ValidationError
 
@@ -23,9 +25,11 @@ class UserRoutes(Resource):
             return {'message': 'User already exists'}, HTTP_400_BAD_REQUEST
 
         user_schema = User.get_schema()
+        address_schema = Address.get_schema()
         try:
             # user schema returns a dictionary object
             user = User(**user_schema.load(request_data))
+
             # ** is used to unpack the dictionary object
         except ValidationError as err:
             return err.messages, HTTP_400_BAD_REQUEST

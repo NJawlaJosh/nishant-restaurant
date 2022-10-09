@@ -6,15 +6,13 @@ class Address(db.Model):
     __tablename__ = 'address'
     _id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users._id'), nullable=False)
-    address = db.Column(db.String(100), nullable=False)
     city = db.Column(db.String(100), nullable=False)
     state = db.Column(db.String(100), nullable=False)
     zipcode = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, user_id, address, city, state, zipcode) -> None:
+    def __init__(self, user_id, city, state, zipcode) -> None:
         super().__init__()
         self.user_id = user_id
-        self.address = address
         self.city = city
         self.state = state
         self.zipcode = zipcode

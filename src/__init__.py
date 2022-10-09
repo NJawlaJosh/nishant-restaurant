@@ -39,6 +39,7 @@ def create_app(test_config=None):
     # here we have initialized the api object with the app object by passing the app object as an argument to the init_app()
 
     with app.app_context():
+        db.drop_all()
         db.create_all()
     # app_context() is a special method which is used to create a context for the app object and returns the context object which is then used to create the database tables using the create_all() method of the db object
     # with statement is used to create a context for the app object
