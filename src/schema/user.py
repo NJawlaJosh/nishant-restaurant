@@ -32,3 +32,4 @@ class UserSchema(ma.SQLAlchemySchema):
                                 '_id', 'name'], dump_only=True)
     created_at = fields.DateTime(dump_only=True)
     updated_at = fields.DateTime(dump_only=True)
+    active = fields.Boolean()

@@ -23,6 +23,7 @@ class User(db.Model):
     zipcode = db.Column(db.Integer(), nullable=False)
     balance = db.Column(db.Float(), default=0, nullable=False)
     restaurants = db.relationship('Restaurant', backref='user', lazy=True)
+    active = db.Column(db.Boolean(), default=True, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.now())
     updated_at = db.Column(db.DateTime, nullable=False,
                            default=db.func.now(), onupdate=db.func.now()
