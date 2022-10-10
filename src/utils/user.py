@@ -1,5 +1,4 @@
 from src.models.user import User
-from src.constants import user_messages
 
 
 def change_active_status(user, password=None):

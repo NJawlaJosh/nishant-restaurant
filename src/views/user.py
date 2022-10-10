@@ -1,18 +1,12 @@
-from email import message
-from pprint import pprint
-from flask import request, jsonify
-
+from flask import request
 from flask_restful import Resource
-
-from src.constants import http_status_codes
-from src.constants import user_messages
-from src.models.user import User
 from marshmallow import ValidationError
-from src.schema import restaurant
 
-from src.schema.restaurant import RestaurantSchema
+from src.models.user import User
 from src.schema.user import UserSchema
 from src.utils.user import change_active_status
+from src.constants import http_status_codes
+from src.constants import user_messages
 
 
 class UserViews(Resource):

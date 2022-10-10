@@ -1,10 +1,6 @@
-from dataclasses import fields
-
-from src.models import restaurant
 from . import db
 
 from src.schema.user import UserSchema
-from src.models.restaurant import Restaurant
 
 
 class User(db.Model):
