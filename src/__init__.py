@@ -22,7 +22,6 @@ def create_app(test_config=None):
     api.init_app(app)
 
     with app.app_context():
-        db.drop_all()
         db.create_all()
 
     return app
