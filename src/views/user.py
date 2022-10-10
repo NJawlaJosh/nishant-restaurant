@@ -21,10 +21,7 @@ class UserViews(Resource):
         user = User.query.filter_by(
             _id=user_id).first_or_404(description=USER_NOT_FOUND)
 
-        user_schema = User.get_schema(
-            {'name', 'email', 'city', 'state', 'zipcode', 'balance'}
-        )
-        return user_schema.dump(user), HTTP_200_OK
+        return User.get_schema(USER_DETAILS).dump(user), HTTP_200_OK
 
     def post(self):
         """ Create a new user """
