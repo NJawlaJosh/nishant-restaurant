@@ -34,7 +34,7 @@ class UserViews(Resource):
             if searched_user.active:
                 return user_messages.USER_ALREADY_EXIST, http_status_codes.HTTP_400_BAD_REQUEST
             else:
-                return change_active_status(searched_user._id), http_status_codes.HTTP_200_OK
+                return change_active_status(searched_user, request_data.get('password')), http_status_codes.HTTP_200_OK
 
         user_schema = User.get_schema()
         try:
@@ -64,7 +64,10 @@ class UserViews(Resource):
 
     def delete(self, user_id):
         """ Delete a user by id """
-        change_active_status(user_id)
+        user = User.query.filter_by(_id=user_id).first_or_404(
+            description=user_messages.USER_NOT_FOUND
+        )
+        change_active_status(user)
         return "", http_status_codes.HTTP_204_NO_CONTENT
 
 
