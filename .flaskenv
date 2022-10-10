@@ -1,2 +1,3 @@
 FLASK_DEBUG= True
 FLASK_APP=src
+FLASK_ADMIN_SWATCH=cerulean

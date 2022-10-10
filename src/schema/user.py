@@ -28,5 +28,7 @@ class UserSchema(ma.SQLAlchemySchema):
     balance = fields.Float(required=True, validate=validate.Range(
         min=0, error="Balance must be greater than or equal to 0")
     )
+    restaurants = fields.Nested('RestaurantSchema', many=True, only=[
+                                '_id', 'name'], dump_only=True)
     created_at = fields.DateTime(dump_only=True)
     updated_at = fields.DateTime(dump_only=True)

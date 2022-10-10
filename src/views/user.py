@@ -1,6 +1,6 @@
 from email import message
 from pprint import pprint
-from flask import request
+from flask import request, jsonify
 
 from flask_restful import Resource
 
@@ -8,6 +8,10 @@ from src.constants.http_status_codes import *
 from src.constants.user_messages import *
 from src.models.user import User
 from marshmallow import ValidationError
+from src.schema import restaurant
+
+from src.schema.restaurant import RestaurantSchema
+from src.schema.user import UserSchema
 
 
 class UserViews(Resource):
@@ -62,3 +66,13 @@ class UserViews(Resource):
         )
         user.delete()
         return USER_DELETED_SUCCESS, HTTP_204_NO_CONTENT
+
+
+class UserRestaurantListViews(Resource):
+
+    def get(self, user_id):
+        """ Get a list of restaurants for a user """
+        user = UserSchema().dump(User.query.filter_by(_id=user_id).first_or_404(
+            description=USER_NOT_FOUND)
+        )
+        return {"restaurants": user.get('restaurants')}, HTTP_200_OK
