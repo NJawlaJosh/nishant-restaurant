@@ -12,6 +12,7 @@ from src.schema import restaurant
 
 from src.schema.restaurant import RestaurantSchema
 from src.schema.user import UserSchema
+from src.utils.user import change_active_status
 
 
 class UserViews(Resource):
@@ -27,9 +28,13 @@ class UserViews(Resource):
     def post(self):
         """ Create a new user """
         request_data = request.get_json()
-
-        if User.query.filter_by(email=request_data['email']).first() is not None:
-            return user_messages.USER_ALREADY_EXIST, http_status_codes.HTTP_400_BAD_REQUEST
+        searched_user = User.query.filter_by(
+            email=request_data['email']).first()
+        if searched_user is not None:
+            if searched_user.active:
+                return user_messages.USER_ALREADY_EXIST, http_status_codes.HTTP_400_BAD_REQUEST
+            else:
+                return change_active_status(searched_user._id), http_status_codes.HTTP_200_OK
 
         user_schema = User.get_schema()
         try:
@@ -45,7 +50,7 @@ class UserViews(Resource):
         """ Update a user by id """
         request_data = request.get_json()
         user_schema = User.get_schema()
-        user = User.query.filter_by(_id=user_id).first_or_404(
+        user = User.query.filter_by(_id=user_id, active=True).first_or_404(
             description=user_messages.USER_NOT_FOUND
         )
         try:
@@ -59,18 +64,15 @@ class UserViews(Resource):
 
     def delete(self, user_id):
         """ Delete a user by id """
-        user = User.query.filter_by(_id=user_id).first_or_404(
-            description=user_messages.USER_NOT_FOUND
-        )
-        user.delete()
-        return user_messages.USER_DELETED_SUCCESS, http_status_codes.HTTP_204_NO_CONTENT
+        change_active_status(user_id)
+        return "", http_status_codes.HTTP_204_NO_CONTENT
 
 
 class UserRestaurantListViews(Resource):
 
     def get(self, user_id):
         """ Get a list of restaurants for a user """
-        user = UserSchema().dump(User.query.filter_by(_id=user_id).first_or_404(
+        user = UserSchema().dump(User.query.filter_by(_id=user_id, active=True).first_or_404(
             description=user_messages.USER_NOT_FOUND)
         )
         return {"restaurants": user.get('restaurants')}, http_status_codes.HTTP_200_OK

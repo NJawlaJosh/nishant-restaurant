@@ -44,9 +44,10 @@ class User(db.Model):
         db.session.commit()
         return self
 
-    def update(self, updated_data):
-        for key, value in updated_data.items():
-            setattr(self, key, value)
+    def update(self, updated_data=None):
+        if updated_data:
+            for key, value in updated_data.items():
+                setattr(self, key, value)
         db.session.commit()
         return self
 
