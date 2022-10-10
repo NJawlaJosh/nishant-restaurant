@@ -1,7 +1,10 @@
 from dataclasses import fields
+
+from src.models import restaurant
 from . import db
 
 from src.schema.user import UserSchema
+from src.models.restaurant import Restaurant
 
 
 class User(db.Model):
@@ -19,6 +22,7 @@ class User(db.Model):
     state = db.Column(db.String(100), nullable=False)
     zipcode = db.Column(db.Integer(), nullable=False)
     balance = db.Column(db.Float(), default=0, nullable=False)
+    restaurants = db.relationship('Restaurant', backref='user', lazy=True)
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.now())
     updated_at = db.Column(db.DateTime, nullable=False,
                            default=db.func.now(), onupdate=db.func.now()
