@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash
 from src.constants.india_states import indian_states
 from src.schema import BaseSchema
 from src.schema.restaurant import RestaurantSchema
-from src.constants.user_constants import NAME_LENGTH_MIN,  NAME_LENGTH_MAX, PASSWORD_LENGTH_MIN,  PASSWORD_LENGTH_MAX,  CITY_LENGTH_MIN,  CITY_LENGTH_MAX, RESTAURANT_FIELDS,  STATE_LENGTH_MIN,  STATE_LENGTH_MAX, ZIPCODE_LENGTH,  BALANCE_MIN,  CITY_REGEX,  NAME_LENGTH_ERROR,  PASSWORD_LENGTH_ERROR,  CITY_LENGTH_ERROR,  CITY_REGEX_ERROR,  STATE_LENGTH_ERROR,  STATE_ONEOF_ERROR,  ZIPCODE_LENGTH_ERROR,  BALANCE_MIN_ERROR
+from src.constants.user_constants import NAME_LENGTH_MIN,  NAME_LENGTH_MAX, PASSWORD_LENGTH_MIN,  PASSWORD_LENGTH_MAX,  CITY_LENGTH_MIN,  CITY_LENGTH_MAX, RESTAURANT_FIELDS,  STATE_LENGTH_MIN,  STATE_LENGTH_MAX, USER_TYPES, ZIPCODE_LENGTH,  BALANCE_MIN,  CITY_REGEX,  NAME_LENGTH_ERROR,  PASSWORD_LENGTH_ERROR,  CITY_LENGTH_ERROR,  CITY_REGEX_ERROR,  STATE_LENGTH_ERROR,  STATE_ONEOF_ERROR,  ZIPCODE_LENGTH_ERROR,  BALANCE_MIN_ERROR
 
 
 class UserSchema(BaseSchema):
@@ -43,3 +43,4 @@ class UserSchema(BaseSchema):
         'RestaurantSchema', many=True, only=RESTAURANT_FIELDS, dump_only=True
     )
     active = fields.Boolean()
+    type = fields.String(validate=validate.OneOf(USER_TYPES))

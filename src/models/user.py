@@ -18,4 +18,5 @@ class User(BaseClass):
     zipcode = db.Column(db.String(5), nullable=False)
     balance = db.Column(db.Float(), default=0, nullable=False)
     restaurants = db.relationship('Restaurant', backref='user', lazy=True)
+    type = db.Column(db.String(100), nullable=False, default='user')
     active = db.Column(db.Boolean(), default=True, nullable=False)

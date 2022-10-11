@@ -20,3 +20,4 @@ STATE_ONEOF_ERROR = f"State must be a valid Indian state"
 ZIPCODE_LENGTH_ERROR = f"Zipcode must be {ZIPCODE_LENGTH} digits long"
 BALANCE_MIN_ERROR = f"Balance must be greater than or equal to {BALANCE_MIN}"
 RESTAURANT_FIELDS = ['_id', 'name']
+USER_TYPES = ['user', 'owner']
