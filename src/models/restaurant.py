@@ -1,5 +1,5 @@
 from src.constants.restaurant_constants import RESTAURANT_NAME_LENGTH
-from . import BaseClass, db
+from src.models import BaseClass, db
 
 
 class Restaurant(BaseClass):
