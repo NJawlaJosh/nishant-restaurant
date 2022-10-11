@@ -1,4 +1,4 @@
-from marshmallow import fields, validate, pre_load
+from marshmallow import fields, validate, pre_load, EXCLUDE
 from werkzeug.security import generate_password_hash
 
 
@@ -13,6 +13,7 @@ class UserSchema(BaseSchema):
     class Meta:
         model = 'User'
         primary_key = '_id'
+        unknown = EXCLUDE
 
     @pre_load
     def hash_password(self, data, **kwargs):
