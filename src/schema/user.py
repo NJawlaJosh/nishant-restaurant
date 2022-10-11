@@ -36,7 +36,7 @@ class UserSchema(BaseSchema):
     )
     zipcode = fields.String(validate=validate.And(validate.Length(
         equal=ZIPCODE_LENGTH, error=ZIPCODE_LENGTH_ERROR), validate.Regexp(r'^\d+$')))
-    balance = fields.Float(required=True, validate=validate.Range(
+    balance = fields.Float(validate=validate.Range(
         min=BALANCE_MIN, error=BALANCE_MIN_ERROR)
     )
     restaurants = fields.Nested(
