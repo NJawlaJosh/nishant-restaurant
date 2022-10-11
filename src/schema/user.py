@@ -1,4 +1,5 @@
-from marshmallow import fields, validate, pre_load, EXCLUDE
+from pprint import pprint
+from marshmallow import fields, validate, pre_load, EXCLUDE, post_load
 from werkzeug.security import generate_password_hash
 
 
@@ -16,6 +17,21 @@ class UserSchema(BaseSchema):
         unknown = EXCLUDE
 
     @pre_load
+    def uppercase_state(self, data, **kwargs):
+        """Uppercase state"""
+        if 'state' in data:
+            data['state'] = data['state'].upper()
+        return data
+
+    @pre_load
+    def remove_whitespace(self, data, **kwargs):
+        """Remove whitespace from all fields"""
+        for key in data:
+            if isinstance(data[key], str):
+                data[key] = ' '.join(data[key].split())
+        return data
+
+    @post_load
     def hash_password(self, data, **kwargs):
         if 'password' in data:
             data['password'] = generate_password_hash(data['password'])
