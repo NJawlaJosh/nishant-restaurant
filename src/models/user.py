@@ -25,16 +25,6 @@ class User(db.Model):
                            default=db.func.now(), onupdate=db.func.now()
                            )
 
-    def __init__(self, name, email, password, city, state, zipcode, balance) -> None:
-        super().__init__()
-        self.name = name
-        self.email = email
-        self.password = password
-        self.city = city
-        self.state = state
-        self.zipcode = zipcode
-        self.balance = balance
-
     def create(self):
         db.session.add(self)
         db.session.commit()
@@ -56,6 +46,4 @@ class User(db.Model):
         return super().__repr__()
 
     def get_schema(params=None):
-        if params:
-            return UserSchema(only=params)
-        return UserSchema()
+        return UserSchema(only=params)
