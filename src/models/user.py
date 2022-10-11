@@ -4,6 +4,7 @@ from src.schema.user import UserSchema
 
 
 class User(db.Model):
+    """User Model for users table"""
     class Meta:
         fields = ({'name', 'email', 'password',
                    'balance', 'city', 'state', 'zipcode'}

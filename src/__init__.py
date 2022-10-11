@@ -12,6 +12,7 @@ from src.models.restaurant import Restaurant
 
 
 def create_app(test_config=None):
+    """Create and configure an instance of the Flask application."""
     app = Flask(__name__, instance_relative_config=True)
     if test_config is None:
         app.config.from_mapping(
@@ -29,7 +30,6 @@ def create_app(test_config=None):
     admin = Admin(app, name='microblog', template_mode='bootstrap3')
     admin.add_view(ModelView(User, db.session))
     admin.add_view(ModelView(Restaurant, db.session))
-
 
     with app.app_context():
         db.create_all()

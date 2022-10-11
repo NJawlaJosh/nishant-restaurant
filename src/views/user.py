@@ -10,6 +10,7 @@ from src.constants import user_messages
 
 
 class UserViews(Resource):
+    """User Views for user crud operations"""
 
     def get(self, user_id):
         """ Get a user by id """
@@ -66,6 +67,7 @@ class UserViews(Resource):
 
 
 class UserRestaurantListViews(Resource):
+    """User restaurant views for user restaurant read operations"""
 
     def get(self, user_id):
         """ Get a list of restaurants for a user """

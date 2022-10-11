@@ -2,6 +2,7 @@ from marshmallow import Schema, fields
 
 
 class RestaurantSchema(Schema):
+    """Restaurant Schema for restaurant table"""
     class Meta:
         fields = ('_id', 'name', 'owner')
 

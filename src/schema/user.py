@@ -1,4 +1,5 @@
-from marshmallow import fields, validate
+from marshmallow import fields, validate, pre_load
+from werkzeug.security import generate_password_hash
 
 from src.schema import ma
 from src.constants.india_states import indian_states
@@ -7,10 +8,18 @@ from src.constants.user_constants import NAME_LENGTH_MIN,  NAME_LENGTH_MAX, PASS
 
 
 class UserSchema(ma.SQLAlchemySchema):
+    """User Schema for user table"""
     class Meta:
         model = 'User'
         primary_key = '_id'
     _id = fields.Integer(dump_only=True)
+
+    @pre_load
+    def hash_password(self, data, **kwargs):
+        if 'password' in data:
+            data['password'] = generate_password_hash(data['password'])
+        return data
+
     name = fields.String(
         required=True, validate=validate.Length(min=NAME_LENGTH_MIN, max=NAME_LENGTH_MAX, error=NAME_LENGTH_ERROR)
     )

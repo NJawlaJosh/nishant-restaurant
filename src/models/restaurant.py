@@ -2,6 +2,7 @@ from . import db
 
 
 class Restaurant(db.Model):
+    """Restaurant Model for restaurants table"""
     __tablename__ = 'restaurants'
     _id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True)
