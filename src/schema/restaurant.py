@@ -1,14 +1,15 @@
-from marshmallow import Schema, fields, validate
+from marshmallow import fields, validate
 
 from src.constants.restaurant_constants import RESTAURANT_NAME_LENGTH_MAX, RESTAURANT_NAME_LENGTH_MIN
+from src.schema import BaseSchema
 
 
-class RestaurantSchema(Schema):
+class RestaurantSchema(BaseSchema):
     """Restaurant Schema for restaurant table"""
     class Meta:
         fields = ('_id', 'name', 'owner')
 
-    _id = fields.Integer(dump_only=True)
     name = fields.String(required=True, validate=validate.Length(
-        min=RESTAURANT_NAME_LENGTH_MIN, max=RESTAURANT_NAME_LENGTH_MAX))
+        min=RESTAURANT_NAME_LENGTH_MIN, max=RESTAURANT_NAME_LENGTH_MAX)
+    )
     owner = fields.Nested('UserSchema', only=['_id', 'username'])

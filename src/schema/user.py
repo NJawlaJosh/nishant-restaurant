@@ -1,18 +1,18 @@
 from marshmallow import fields, validate, pre_load
 from werkzeug.security import generate_password_hash
 
-from src.schema import ma
+
 from src.constants.india_states import indian_states
+from src.schema import BaseSchema
 from src.schema.restaurant import RestaurantSchema
 from src.constants.user_constants import NAME_LENGTH_MIN,  NAME_LENGTH_MAX, PASSWORD_LENGTH_MIN,  PASSWORD_LENGTH_MAX,  CITY_LENGTH_MIN,  CITY_LENGTH_MAX, RESTAURANT_FIELDS,  STATE_LENGTH_MIN,  STATE_LENGTH_MAX,  ZIPCODE_MIN,  ZIPCODE_MAX,  BALANCE_MIN,  CITY_REGEX,  NAME_LENGTH_ERROR,  PASSWORD_LENGTH_ERROR,  CITY_LENGTH_ERROR,  CITY_REGEX_ERROR,  STATE_LENGTH_ERROR,  STATE_ONEOF_ERROR,  ZIPCODE_LENGTH_ERROR,  BALANCE_MIN_ERROR
 
 
-class UserSchema(ma.SQLAlchemySchema):
+class UserSchema(BaseSchema):
     """User Schema for user table"""
     class Meta:
         model = 'User'
         primary_key = '_id'
-    _id = fields.Integer(dump_only=True)
 
     @pre_load
     def hash_password(self, data, **kwargs):
@@ -42,6 +42,4 @@ class UserSchema(ma.SQLAlchemySchema):
     restaurants = fields.Nested(
         'RestaurantSchema', many=True, only=RESTAURANT_FIELDS, dump_only=True
     )
-    created_at = fields.DateTime(dump_only=True)
-    updated_at = fields.DateTime(dump_only=True)
     active = fields.Boolean()
