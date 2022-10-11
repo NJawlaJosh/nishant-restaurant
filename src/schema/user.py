@@ -16,27 +16,6 @@ class UserSchema(BaseSchema):
         primary_key = '_id'
         unknown = EXCLUDE
 
-    @pre_load
-    def uppercase_state(self, data, **kwargs):
-        """Uppercase state"""
-        if 'state' in data:
-            data['state'] = data['state'].upper()
-        return data
-
-    @pre_load
-    def remove_whitespace(self, data, **kwargs):
-        """Remove whitespace from all fields"""
-        for key in data:
-            if isinstance(data[key], str):
-                data[key] = ' '.join(data[key].split())
-        return data
-
-    @post_load
-    def hash_password(self, data, **kwargs):
-        if 'password' in data:
-            data['password'] = generate_password_hash(data['password'])
-        return data
-
     name = fields.String(
         required=True, validate=validate.Length(min=NAME_LENGTH_MIN, max=NAME_LENGTH_MAX, error=NAME_LENGTH_ERROR)
     )
@@ -60,3 +39,25 @@ class UserSchema(BaseSchema):
     )
     active = fields.Boolean()
     type = fields.String(validate=validate.OneOf(USER_TYPES))
+
+    @pre_load
+    def uppercase_state(self, data, **kwargs):
+        """Uppercase state"""
+        if 'state' in data:
+            data['state'] = data['state'].upper()
+        return data
+
+    @pre_load
+    def remove_whitespace(self, data, **kwargs):
+        """Remove whitespace from all fields"""
+        for key in data:
+            if isinstance(data[key], str):
+                data[key] = ' '.join(data[key].split())
+        return data
+
+    @post_load
+    def hash_password(self, data, **kwargs):
+        """Hash password"""
+        if 'password' in data:
+            data['password'] = generate_password_hash(data['password'])
+        return data
