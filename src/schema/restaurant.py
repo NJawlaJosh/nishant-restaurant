@@ -1,5 +1,4 @@
-from wsgiref import validate
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, validate
 
 from src.constants.restaurant_constants import RESTAURANT_NAME_LENGTH_MAX, RESTAURANT_NAME_LENGTH_MIN
 

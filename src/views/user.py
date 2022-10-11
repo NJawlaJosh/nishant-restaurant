@@ -32,6 +32,7 @@ class UserViews(Resource):
                 return change_active_status(searched_user, request_data.get('password')), http_status_codes.HTTP_200_OK
 
         user_schema = User.get_schema()
+
         try:
             user = User(**user_schema.load(request_data))
         except ValidationError as err:
@@ -48,6 +49,8 @@ class UserViews(Resource):
         user = User.query.filter_by(_id=user_id, active=True).first_or_404(
             description=user_messages.USER_NOT_FOUND
         )
+        if (request_data.get('email') != user.email):
+            return user_messages.USER_MAIL_CHANGE_NOT_ALLOWED, http_status_codes.HTTP_400_BAD_REQUEST
         try:
             user.update(user_schema.load(
                 request_data, instance=user, partial=True)
