@@ -14,7 +14,7 @@ class UserSchema(ma.SQLAlchemySchema):
     name = fields.String(
         required=True, validate=validate.Length(min=NAME_LENGTH_MIN, max=NAME_LENGTH_MAX, error=NAME_LENGTH_ERROR)
     )
-    email = fields.Email(required=True, validate=validate.Email())
+    email = fields.Email(required=True)
     password = fields.String(
         required=True, validate=validate.Length(min=PASSWORD_LENGTH_MIN, max=PASSWORD_LENGTH_MAX, error=PASSWORD_LENGTH_ERROR)
     )
