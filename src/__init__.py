@@ -1,14 +1,11 @@
 import os
 
 from flask import Flask
-from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
 
 from src.models import db
 from src.schema import ma
 from src.views import api
-from src.models.user import User
-from src.models.restaurant import Restaurant
+from src.admin import create_admin
 
 
 def create_app(test_config=None):
@@ -22,14 +19,10 @@ def create_app(test_config=None):
     else:
         app.config.from_mapping(test_config)
 
-    db.app = app
     db.init_app(app)
     ma.init_app(app)
     api.init_app(app)
-
-    admin = Admin(app, name='microblog', template_mode='bootstrap3')
-    admin.add_view(ModelView(User, db.session))
-    admin.add_view(ModelView(Restaurant, db.session))
+    create_admin(app)
 
     with app.app_context():
         db.create_all()
