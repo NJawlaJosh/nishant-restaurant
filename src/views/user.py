@@ -18,7 +18,7 @@ class UserViews(Resource):
             _id=user_id, active=True
         ).first_or_404(description=user_messages.USER_NOT_FOUND)
 
-        return User.get_schema(user_messages.USER_DETAILS).dump(user), http_status_codes.HTTP_200_OK
+        return UserSchema(user_messages.USER_DETAILS).dump(user), http_status_codes.HTTP_200_OK
 
     def post(self):
         """ Create a new user """
@@ -31,7 +31,7 @@ class UserViews(Resource):
             else:
                 return change_active_status(searched_user, request_data.get('password')), http_status_codes.HTTP_200_OK
 
-        user_schema = User.get_schema()
+        user_schema = UserSchema()
 
         try:
             user = User(**user_schema.load(request_data))
@@ -45,7 +45,7 @@ class UserViews(Resource):
     def put(self, user_id):
         """ Update a user by id """
         request_data = request.get_json()
-        user_schema = User.get_schema()
+        user_schema = UserSchema()
         user = User.query.filter_by(_id=user_id, active=True).first_or_404(
             description=user_messages.USER_NOT_FOUND
         )

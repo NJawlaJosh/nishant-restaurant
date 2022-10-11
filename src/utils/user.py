@@ -1,4 +1,5 @@
 from src.models.user import User
+from src.schema.user import UserSchema
 
 
 def change_active_status(user, password=None):
@@ -7,5 +8,5 @@ def change_active_status(user, password=None):
     if password:
         user.password = password
     user.update()
-    user_schema = User.get_schema()
+    user_schema = UserSchema()
     return user_schema.dump(user)
