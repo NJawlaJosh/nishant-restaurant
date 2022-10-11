@@ -30,6 +30,7 @@ def create_app(test_config=None):
     admin.add_view(ModelView(User, db.session))
     admin.add_view(ModelView(Restaurant, db.session))
 
+
     with app.app_context():
         db.create_all()
 
