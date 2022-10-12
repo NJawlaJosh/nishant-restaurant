@@ -47,14 +47,6 @@ class UserSchema(BaseSchema):
             data['state'] = data['state'].upper()
         return data
 
-    @pre_load
-    def remove_whitespace(self, data, **kwargs):
-        """Remove whitespace from all fields"""
-        for key in data:
-            if isinstance(data[key], str):
-                data[key] = ' '.join(data[key].split())
-        return data
-
     @post_load
     def hash_password(self, data, **kwargs):
         """Hash password"""
